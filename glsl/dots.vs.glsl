@@ -14,5 +14,12 @@ void main() {
     // HINT: We need vertexPosition in local object frame, lightDirection in VCS.
     // And don't forget to transform the normal to an appropriate frame!
     
-    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
-}
+    vertexPosition = position;
+
+    interpolatedNormal = normalize(normalMatrix * normal);
+
+    vec4 viewPos = viewMatrix * modelMatrix * vec4(position, 1.0);
+    vec3 lightPosView = (viewMatrix * vec4(spherePosition, 1.0)).xyz;
+    lightDirection = normalize(lightPosView - viewPos.xyz);
+
+    gl_Position = projectionMatrix * viewPos;}

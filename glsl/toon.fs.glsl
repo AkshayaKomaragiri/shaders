@@ -23,5 +23,15 @@ void main() {
     // near the edge of the 3D model. Use a reasonable value as the threshold for the
     // silhouette thickness (i.e. proximity to edge).
 
-    gl_FragColor = vec4(0.5, 0.0, 1.0, 1.0);
-}
+if (fresnel < 0.3) {
+        gl_FragColor = vec4(outlineColor, 1.0);
+        return;
+    }
+
+    vec3 n = normalize(interpolatedNormal);
+    vec3 l = normalize(lightDirection);
+    float intensity = max(dot(n, l), 0.0);
+
+    vec3 color = (intensity > 0.5) ? toonColor : toonColor2;
+
+    gl_FragColor = vec4(color, 1.0);}

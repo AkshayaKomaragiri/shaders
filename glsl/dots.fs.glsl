@@ -16,6 +16,30 @@ void main() {
     // intensity to give the 3D model some color and depth. Also make the color change wrt ticks.
     // Next, implement rolling dots using the mod function, ticks and discard.
 
+   float spacing = 0.25; 
+    float speed = 0.005;  
+    
+    vec3 rollingPos = vertexPosition;
+    rollingPos.y -= ticks * speed;
+
+    vec3 cellPos = mod(rollingPos, spacing) - (spacing * 0.5);
+    float dist = length(cellPos);
+    float dotRadius = 0.12; 
+
+    if (dist > dotRadius) {
+        discard;
+    }
+
+    vec3 n = normalize(interpolatedNormal);
+    vec3 l = normalize(lightDirection);
+    float intensity = max(dot(n, l), 0.0);
+
+    float timeCycle = sin(ticks * 0.03) * 0.5 + 0.5; 
+    vec3 color1 = mix(vec3(1.0, 0.2, 0.2), vec3(0.2, 0.6, 1.0), timeCycle);
+    vec3 color2 = mix(vec3(1.0, 0.9, 0.1), vec3(0.8, 0.2, 0.8), timeCycle);
+
+    vec3 baseColor = mix(color1, color2, intensity);
+
     // HINT: Set final rendered colour
-    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    gl_FragColor = vec4(baseColor, 1.0);
 }

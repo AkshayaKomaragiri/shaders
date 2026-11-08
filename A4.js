@@ -81,9 +81,35 @@ const dotsMaterial = new THREE.ShaderMaterial({
 
 // TODO: Load the helmet's texture images in gltf/ (Default_albedo.jpg, Default_normal.jpg,
 // Default_AO.jpg, Default_metalRoughness.jpg, Default_emissive.jpg) using THREE.TextureLoader
+const textureLoader = new THREE.TextureLoader();
+
+const loadGLTFTexture = (path, isColor = false) => {
+  const texture = textureLoader.load(path);
+  texture.flipY = false;
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  if (isColor) {
+    texture.colorSpace = THREE.SRGBColorSpace;
+  }
+  return texture;
+};
+
+const albedoMap = loadGLTFTexture("gltf/Default_albedo.jpg", true);
+const normalMap = loadGLTFTexture("gltf/Default_normal.jpg", false);
+const aoMap = loadGLTFTexture("gltf/Default_AO.jpg", false);
+const metalRoughnessMap = loadGLTFTexture("gltf/Default_metalRoughness.jpg", false);
+const emissiveMap = loadGLTFTexture("gltf/Default_emissive.jpg", true);
 
 const helmetPBRMaterial = new THREE.MeshStandardMaterial({
   // TODO: pass texture maps to the material. And set material's metalness.
+  map: albedoMap,
+  normalMap: normalMap,
+  aoMap: aoMap,
+  roughnessMap: metalRoughnessMap,
+  metalnessMap: metalRoughnessMap,
+  emissiveMap: emissiveMap,
+  emissive: new THREE.Color(0xffffff), 
+  metalness: 1.0,
 });
 
 // Load shaders
