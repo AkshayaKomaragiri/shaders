@@ -18,6 +18,7 @@ This assignment implements several shading algorithms in GLSL and Three.js: Blin
 
 **Implementation:**
 [Explain which frame each vector is in and how you computed the three terms]
+In the vertex shader I calculated the world position by multiplying the position vector by the modelMatrix. I calculated viewPos by multiplying the position vector times the modelMatrix and viewMatrix. I calculated the iterpolatedNormal by normalizing the product of the normalMatrix and the normal vector. It transforms the local vertex normal into the view/world space and then normalizes the result. In the fragment shader first I calculated the ambient light color by multiplying the ambientColor uniform by the kAmbient  uniform.   I calculated lightPosView which is the spherePosition(also the light source) vector multiplied by the viewMatrix which transforms the position into view space. Then we calculate the unit vector pointing from the fragment to the light source. Diffuse is calculated as the diffuseColor * kDiffuse * max of the dot product of interpolated normal and the unit vector pointing to the light. The max function caps the diffuse so we don't get negative values. Vector v is the unit vector from the fragment to the camera. We add the vector v and the unit vector from fragment to light souce and normalize this. This is the half vector needed for the blinn phong model. The specular angle is the dot product between the interpolated normal and half vector. The specular term is the specular color * kspecular * specular angle ^ shininess. Finally we add the ambient diffuse and specular together.
 
 **Files Modified:**
 - `glsl/blinn_phong.vs.glsl`
@@ -64,6 +65,10 @@ This assignment implements several shading algorithms in GLSL and Three.js: Blin
 
 **Implementation:**
 [Explain how you quantized the intensity, blended the two tones, and detected the silhouette]
+I found the silhouette by taking the dot product between the surface normal and the view direction. If the computed value was below a certain threshold (I chose 0.3) those pixels are colored with the outline color.  
+Next for coloring the rest of the object I took the dot product of the normal unit vector and the light direction unit vector which gives us the intensity. If the intensity has above a certain threshold it was colored toonColor otherwise it is colored toonColor2.
+
+
 
 **Files Modified:**
 - `glsl/toon.vs.glsl`
