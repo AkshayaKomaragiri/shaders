@@ -16,13 +16,13 @@ void main() {
     // intensity to give the 3D model some color and depth. Also make the color change wrt ticks.
     // Next, implement rolling dots using the mod function, ticks and discard.
 
-   float spacing = 0.25; 
+   float space = 0.25; 
     float speed = 0.005;  
     
     vec3 rollingPos = vertexPosition;
     rollingPos.y -= ticks * speed;
 
-    vec3 cellPos = mod(rollingPos, spacing) - (spacing * 0.5);
+    vec3 cellPos = mod(rollingPos, space) - (space * 0.5);
     float dist = length(cellPos);
     float dotRadius = 0.12; 
 

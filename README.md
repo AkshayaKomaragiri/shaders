@@ -125,7 +125,8 @@ vec4 viewPos = viewMatrix * modelMatrix * vec4(position, 1.0);
 - Make the dots smoothly change colour over time
 
 **Implementation:**
-[Explain how you built the grid, discarded fragments, and animated the dots and their colour with `ticks`]
+[Explain how you built the grid, discarded fragments, and animated the dots and their colour with `ticks`]  
+I started of by declaring variables to hold the spacing and the speed. The vertical position is offset by the elapsed time multipled by the speed. Next we use the mod operator to group the repeating cells to create polka dots. The sine wave oscillates between 0 and 1 over ticks to interpolate  between the two colors.The intensity is used to change the color dynamically based on the light source.
 
 **Files Modified:**
 - `glsl/dots.vs.glsl`
@@ -170,7 +171,8 @@ vec4 viewPos = viewMatrix * modelMatrix * vec4(position, 1.0);
 - Pass them to `helmetPBRMaterial` and set its metalness, so the helmet looks like Figure 7
 
 **Implementation:**
-[Explain which texture goes into which material property, and any texture settings you needed]
+[Explain which texture goes into which material property, and any texture settings you needed]  
+First I loaded all of the maps provided using the loadGLTFTexture function. Then I instantianted a THREE.MeshStandardMaterial by passing in the texture maps.
 
 **Files Modified:**
 - `A4.js`
@@ -211,7 +213,11 @@ const helmetPBRMaterial = new THREE.MeshStandardMaterial({
 
 ## Screenshots
 [Include screenshots of your working program showing each part's functionality]
-- **Blinn-Phong:** [Screenshot of scene 1]
-- **Toon:** [Screenshot of scene 2, with the silhouette outlines visible]
-- **Polka Dots:** [Screenshots of scene 3 at two different times, showing the dots rolling and changing colour]
-- **PBR:** [Screenshot of scene 4 showing the textured helmet]
+- **Blinn-Phong:** 
+- ![alt text](image.png)
+- **Toon:**
+- ![alt text](image-1.png)
+- **Polka Dots:** 
+![alt text](image-7.png)
+![alt text](image-6.png)
+- **PBR:** ![alt text](image-4.png)
